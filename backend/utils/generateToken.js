@@ -5,13 +5,15 @@ const generateToken = (res, userId) => {
     expiresIn: '30d',
   });
 
-  // Cross-domain cookie settings for production
-  res.cookie('jwt', token, {
+  // Conditional cookie settings for local vs production
+  const cookieOptions = {
     httpOnly: true,
-    secure: true,          // Only sent over HTTPS
-    sameSite: 'none',      // Allows cross-site cookie (needed for Vercel <-> Render)
-    maxAge: 30 * 24 * 60 * 60 * 1000,
-  });
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
+    secure: process.env.NODE_ENV === 'production', // true in prod, false in dev
+    sameSite: process.env.NODE_ENV === 'production' ? 'none' : 'lax', // 'none' for cross-domain prod, 'lax' for local
+  };
+
+  res.cookie('jwt', token, cookieOptions);
 
   return token;
 };
