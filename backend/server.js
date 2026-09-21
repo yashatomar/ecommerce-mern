@@ -15,10 +15,13 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
-// ⬇️ UPDATED CORS CONFIGURATION TO FIX NETWORK ERROR ⬇️
+// ⬇️ UPDATED CORS CONFIGURATION FOR LOCAL & PRODUCTION ⬇️
 app.use(cors({
-  origin: 'http://localhost:5173', // Your Vite frontend URL
-  credentials: true,               // Allow cookies (JWT) to be sent
+  origin: [
+    'http://localhost:5173', 
+    'https://ecommerce-mern-dun-xi.vercel.app'
+  ],
+  credentials: true, // Allow cookies (JWT) to be sent
 }));
 
 app.use(express.json());
