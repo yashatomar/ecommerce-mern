@@ -15,12 +15,9 @@ const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
-// ⬇️ UPDATED CORS CONFIGURATION FOR LOCAL & PRODUCTION ⬇️
+// ⬇️ UPDATED CORS TO ALLOW ALL VERCEL DEPLOYMENTS ⬇️
 app.use(cors({
-  origin: [
-    'http://localhost:5173', 
-    'https://ecommerce-mern-dun-xi.vercel.app'
-  ],
+  origin: true, // Dynamically allows whatever origin is requesting (fixes Vercel preview URLs)
   credentials: true, // Allow cookies (JWT) to be sent
 }));
 
