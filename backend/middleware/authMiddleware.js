@@ -5,6 +5,13 @@ import User from '../models/userModel.js';
 export const protect = async (req, res, next) => {
   let token = req.cookies.jwt;
 
+  // --- TEMPORARY DEBUG LOG (Remove after fixing) ---
+  console.log("=== AUTH MIDDLEWARE DEBUG ===");
+  console.log("Cookies received:", req.cookies);
+  console.log("Token found:", token ? "YES" : "NO");
+  console.log("=============================");
+  // -------------------------------------------------
+
   if (token) {
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
