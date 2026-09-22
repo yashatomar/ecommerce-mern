@@ -3,21 +3,25 @@ import dotenv from 'dotenv';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import connectDB from './config/db.js';
+import seedAdmin from './config/seedAdmin.js'; // <-- ADDED
 import userRoutes from './routes/userRoutes.js';
 import productRoutes from './routes/productRoutes.js';
 import orderRoutes from './routes/orderRoutes.js';
 import paymentRoutes from './routes/paymentRoutes.js';
 
 dotenv.config();
-connectDB();
+
+// Connect to DB, then seed admin
+connectDB().then(() => {
+  seedAdmin(); // <-- ADDED: Runs admin seeding after DB connects
+});
 
 const app = express();
 const port = process.env.PORT || 5000;
 
 // Middleware
-// ⬇️ UPDATED CORS TO ALLOW ALL VERCEL DEPLOYMENTS ⬇️
 app.use(cors({
-  origin: true, // Dynamically allows whatever origin is requesting (fixes Vercel preview URLs)
+  origin: true, // Dynamically allows whatever origin is requesting 
   credentials: true, // Allow cookies (JWT) to be sent
 }));
 
